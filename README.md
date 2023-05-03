@@ -14,3 +14,4 @@ A200+mini摄像头开发
 > sudo -S cp 55-iminect-usb.rules /etc/udev/rules.d
 > sudo -S udevadm control --reload-rules
 > ```
+# linux运行段错误, 转向win
