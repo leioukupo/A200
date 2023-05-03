@@ -35,4 +35,9 @@ add_executable(depth_viewer ${Depth_SRC})
 target_link_libraries(depth_viewer freeglut ${OPENGL_LIBRARIES})
 target_link_libraries(depth_viewer ImiCamera)
 target_link_libraries(depth_viewer iminect)
-
+# PointCloudViewer
+SET(PointCloudViewer_SRC PointCloudViewer.cpp ./Common/Render2.cpp ./Common/Util.h)
+add_executable(point_viewer ${PointCloudViewer_SRC})
+target_link_libraries(point_viewer freeglut ${OPENGL_LIBRARIES})
+target_link_libraries(point_viewer ImiCamera)
+target_link_libraries(point_viewer iminect)

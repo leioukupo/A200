@@ -14,11 +14,11 @@
 
 #if defined(_WIN32)
 
-#include <GL/glew.h>
+#include "glew.h"
 
 #endif
 
-#include <GL/freeglut.h>
+#include "freeglut.h"
 #include <stdio.h>
 #include <string.h>
 #include <cmath>
