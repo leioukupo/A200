@@ -15,3 +15,4 @@ A200+mini摄像头开发
 > sudo -S udevadm control --reload-rules
 > ```
 # linux运行段错误, 转向win
++ win需要libgcc_s_seh-1.dll, 通过安装qt解决
