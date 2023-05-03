@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 
 
 # 设置源文件变量
-SET(LOCAL_SRC_FILES main.cpp ./Common/Render.cpp ./Common/Util.cpp)
+SET(LOCAL_SRC_FILES color_viewer.cpp ./Common/Render.cpp ./Common/Util.cpp)
 
 # 设置头文件搜索路径
 set(CMAKE_INCLUDE_DIRECTORIES_BEFORE on)

@@ -10,9 +10,11 @@ All rights reserved.
 @History		:
 1.2018-06-18 Wendell Created file
 ********************************************************************************/
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpragma-pack"
 #ifndef _WIN32
 #endif
 
@@ -62,12 +64,12 @@ uint8_t g_bmpColor[1920 * 1080 * 3] = {0};
 
 
 // window handle
-SampleRender *g_pRender = NULL;
+SampleRender *g_pRender = nullptr;
 
-ImiDeviceAttribute *g_DeviceAttr = NULL;
+ImiDeviceAttribute *g_DeviceAttr = nullptr;
 
 // device handle
-ImiDeviceHandle g_ImiDevice = NULL;
+ImiDeviceHandle g_ImiDevice = nullptr;
 
 // stream handles
 ImiStreamHandle g_streams[10];
@@ -85,7 +87,7 @@ int32_t saveToBMP(const char *bmpImagePath, const uint8_t *pframe, int width, in
     bmfh.bfReserved1 = 0;
     bmfh.bfReserved2 = 0;
     bmfh.bfType = 0x4d42;
-    bmfh.bfOffBits = OffBits; // 头部信息54字节
+    bmfh.bfOffBits = OffBits; // 头部信息的54个字节
     bmfh.bfSize = imagePixSize * 3 + OffBits;
 
     memset(&bmih, 0, sizeof(BMPINFOHEADER_T));
@@ -117,7 +119,7 @@ int32_t saveToBMP(const char *bmpImagePath, const uint8_t *pframe, int width, in
     std::string fullPath = bmpImagePath;
 
     FILE *pSaveBmp = fopen(fullPath.c_str(), "wb");
-    if (NULL == pSaveBmp) {
+    if (nullptr == pSaveBmp) {
         return -1;
     }
 
@@ -169,14 +171,14 @@ static bool needImage(void *pData) {
     static RGB888Pixel s_rgbImage[1280 * 1024];
 
     int32_t avStreamIndex = 0;
-    ImiImageFrame *pFrame = NULL;
+    ImiImageFrame *pFrame = nullptr;
 
     // frame read.
     if (0 != imiReadNextFrame(g_streams[avStreamIndex], &pFrame, 100)) {
         return false;
     }
 
-    if (NULL == pFrame) {
+    if (nullptr == pFrame) {
         return false;
     }
 
@@ -233,30 +235,30 @@ static bool needImage(void *pData) {
 int Exit() {
     //7.imiCloseStream()
     for (uint32_t num = 0; num < g_streamNum; ++num) {
-        if (NULL != g_streams[num]) {
+        if (nullptr != g_streams[num]) {
             imiCloseStream(g_streams[num]);
-            g_streams[num] = NULL;
+            g_streams[num] = nullptr;
         }
     }
 
     //8.imiCloseDevice()
-    if (NULL != g_ImiDevice) {
+    if (nullptr != g_ImiDevice) {
         imiCloseDevice(g_ImiDevice);
-        g_ImiDevice = NULL;
+        g_ImiDevice = nullptr;
     }
 
     //9.imiReleaseDeviceList
-    if (NULL != g_DeviceAttr) {
+    if (nullptr != g_DeviceAttr) {
         imiReleaseDeviceList(&g_DeviceAttr);
-        g_DeviceAttr = NULL;
+        g_DeviceAttr = nullptr;
     }
 
     //10.imiDestroy()
     imiDestroy();
 
-    if (NULL != g_pRender) {
+    if (nullptr != g_pRender) {
         delete g_pRender;
-        g_pRender = NULL;
+        g_pRender = nullptr;
     }
 
     printf("------ exit ------\n");
@@ -290,7 +292,7 @@ int main(int argc, char **argv) {
     //2.imiGetDeviceList()
     uint32_t deviceCount = 0;
     imiGetDeviceList(&g_DeviceAttr, &deviceCount);
-    if ((deviceCount <= 0) || (NULL == g_DeviceAttr)) {
+    if ((deviceCount <= 0) || (nullptr == g_DeviceAttr)) {
         printf("Get No Connected ImiDevice!\n");
         return Exit();
     }
@@ -306,7 +308,7 @@ int main(int argc, char **argv) {
 
     //4.imiGetCurrentFrameMode
     const ImiFrameMode *pMode = imiGetCurrentFrameMode(g_ImiDevice, IMI_DEPTH_FRAME);
-    if (NULL == pMode) {
+    if (nullptr == pMode) {
         printf("Get current frame mode failed!\n");
         return Exit();
     }
@@ -315,7 +317,7 @@ int main(int argc, char **argv) {
     imiSetFrameMode(g_ImiDevice, IMI_DEPTH_FRAME, (ImiFrameMode *) pMode);
 
     //5.imiOpenStream()
-    ret = imiOpenStream(g_ImiDevice, IMI_DEPTH_FRAME, NULL, NULL, &g_streams[g_streamNum++]);
+    ret = imiOpenStream(g_ImiDevice, IMI_DEPTH_FRAME, nullptr, nullptr, &g_streams[g_streamNum++]);
     if (0 != ret) {
         printf("Open Depth Stream Failed! ret = %d\n", ret);
         return Exit();
@@ -326,8 +328,10 @@ int main(int argc, char **argv) {
     g_pRender = new SampleRender("Depth View", pMode->resolutionX, pMode->resolutionY);  // window title & size
     g_pRender->init(argc, argv);
     g_pRender->setKeyCallback(keyboardFun);
-    g_pRender->setDataCallback(needImage, NULL);
+    g_pRender->setDataCallback(needImage, nullptr);
     g_pRender->run();
 
     return Exit();
 }
+
+#pragma clang diagnostic pop
