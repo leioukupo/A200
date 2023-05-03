@@ -15,3 +15,5 @@ A200+mini摄像头开发
 > sudo -S udevadm control --reload-rules
 > ```
 # linux运行段错误, 转向win
++ 运行时需要复制3rparty中的run_libs所有文件到运行目录
++ 如果缺少dll, 解压3rparty中的zip, 并复制dll到c盘的windows/system32中
