@@ -1,0 +1,5 @@
+# ninja log v5
+4	127	7047937030157939	CMakeFiles/color_viewer.dir/Common/Util.cpp.obj	761c50bec3dd7172
+0	330	7047937032197975	CMakeFiles/color_viewer.dir/main.cpp.obj	cf6b1b20d06e9d8b
+9	1094	7047937039816849	CMakeFiles/color_viewer.dir/Common/Render.cpp.obj	38f06c2b0540667b
+1096	1196	7047937040827172	color_viewer.exe	4fa60589c52b4947
