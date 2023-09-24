@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/home/leioukupo/A200/linux/build",
+  "command": "/usr/bin/g++  -I/home/leioukupo/A200/linux/src/../libs -I/home/leioukupo/A200/linux/src/../include -I/home/leioukupo/A200/linux/src/./Common -g -o CMakeFiles/color_viewer.dir/main.cpp.o -c /home/leioukupo/A200/linux/src/main.cpp",
+  "file": "/home/leioukupo/A200/linux/src/main.cpp"
+},
+{
+  "directory": "/home/leioukupo/A200/linux/build",
+  "command": "/usr/bin/g++  -I/home/leioukupo/A200/linux/src/../libs -I/home/leioukupo/A200/linux/src/../include -I/home/leioukupo/A200/linux/src/./Common -g -o CMakeFiles/color_viewer.dir/Common/Render.cpp.o -c /home/leioukupo/A200/linux/src/Common/Render.cpp",
+  "file": "/home/leioukupo/A200/linux/src/Common/Render.cpp"
+},
+{
+  "directory": "/home/leioukupo/A200/linux/build",
+  "command": "/usr/bin/g++  -I/home/leioukupo/A200/linux/src/../libs -I/home/leioukupo/A200/linux/src/../include -I/home/leioukupo/A200/linux/src/./Common -g -o CMakeFiles/color_viewer.dir/Common/Util.cpp.o -c /home/leioukupo/A200/linux/src/Common/Util.cpp",
+  "file": "/home/leioukupo/A200/linux/src/Common/Util.cpp"
+}
+]

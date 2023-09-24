@@ -77,7 +77,7 @@ enum {
 	IMI_DEPTH_IR_FRAME            = 0x05,
 	IMI_IR_FRAME                  = 0x06,
 	IMI_IR_FLOOD_FRAME            = 0x09
-	,IMI_DEPTH_IR_COLOR_FRAME     = 0x0A  //USBLITE Ö§³ÖÈýÍ¼Í¬³ö 20210301
+	,IMI_DEPTH_IR_COLOR_FRAME     = 0x0A  //USBLITE Ö§ï¿½ï¿½ï¿½ï¿½Í¼Í¬ï¿½ï¿½ 20210301
 };
 
 typedef enum {
@@ -107,7 +107,7 @@ enum {
 
 //basic struct
 typedef struct tagImiDriverInfo {
-	ImiDriverType		driverType;
+	int driverType;
 	int32_t		 netListenPort;        // required when driverType is IMI_DRIVER_NET
 	char			recordFilePath[255];  // required when driverType is IMI_DRIVER_FILE
 } ImiDriverInfo;
@@ -173,26 +173,26 @@ typedef struct tagImiFrameMode {
 typedef uint32_t ImiDeviceAnalzinParamsStatus;
  enum
 {
-	IMI_PARAMS_ANALZIN_OK								 = 0x00,   // ´ÓÎÄ¼þ¶ÁÈ¡²¢½âÎöÕýÈ·
-	IMI_PARAMS_ANALZIN_FILE_INFO_CRC_NOT_CORRECT		 = 0x01,   //ÎÄ¼þÄÚÈÝºÍÎÄ¼þÄÚÈÝ¼ÆËã³öµÄcrc²»Æ¥Åä
-	IMI_PARAMS_ANALZIN_FILE_SN_NOT_CORRECT				 = 0x02,   //½âÎöÎÄ¼þSN²»Æ¥Åä
-	IMI_PARAMS_ANALZIN_FILE_FW_VERSION_NOT_CORRECT       = 0x03,   //½âÎöÎÄ¼þ¹Ì¼þ°æ±¾ºÅ²»Æ¥Åä
-	IMI_PARAMS_ANALZIN_FILE_SDK_VERSION_NOT_CORRECT      = 0x04,   //½âÎöÎÄ¼þSDK°æ±¾ºÅ²»Æ¥Åä
-	IMI_PARAMS_ANALZIN_FILE_DEPTHPARAMS_NOT_CORRECT      = 0x05,   //½âÎöÎÄ¼þÉî¶È²ÎÊý²»Æ¥Åä
-	IMI_PARAMS_ANALZIN_FILE_SIZE_NOT_CORRECT		     = 0x06,   //ÎÄ¼þ³¤¶È²»ÕýÈ·
-	IMI_PARAMS_ANALZIN_FILE_NOT_EXIST		             = 0x07,   //ÎÄ¼þ²»´æÔÚ
-	IMI_PARAMS_OPEN_FILE_FAILED		                     = 0x08,   //´ò¿ªÎÄ¼þÊ§°Ü
+	IMI_PARAMS_ANALZIN_OK								 = 0x00,   // ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·
+	IMI_PARAMS_ANALZIN_FILE_INFO_CRC_NOT_CORRECT		 = 0x01,   //ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ýºï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ý¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½crcï¿½ï¿½Æ¥ï¿½ï¿½
+	IMI_PARAMS_ANALZIN_FILE_SN_NOT_CORRECT				 = 0x02,   //ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½SNï¿½ï¿½Æ¥ï¿½ï¿½
+	IMI_PARAMS_ANALZIN_FILE_FW_VERSION_NOT_CORRECT       = 0x03,   //ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ì¼ï¿½ï¿½æ±¾ï¿½Å²ï¿½Æ¥ï¿½ï¿½
+	IMI_PARAMS_ANALZIN_FILE_SDK_VERSION_NOT_CORRECT      = 0x04,   //ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½SDKï¿½æ±¾ï¿½Å²ï¿½Æ¥ï¿½ï¿½
+	IMI_PARAMS_ANALZIN_FILE_DEPTHPARAMS_NOT_CORRECT      = 0x05,   //ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½È²ï¿½ï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½
+	IMI_PARAMS_ANALZIN_FILE_SIZE_NOT_CORRECT		     = 0x06,   //ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½È²ï¿½ï¿½ï¿½È·
+	IMI_PARAMS_ANALZIN_FILE_NOT_EXIST		             = 0x07,   //ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	IMI_PARAMS_OPEN_FILE_FAILED		                     = 0x08,   //ï¿½ï¿½ï¿½Ä¼ï¿½Ê§ï¿½ï¿½
 };
 
 typedef uint32_t ImiDeviceReadParamsStatus;
  enum
 {
-	IMI_PARAMS_READ_OK									 = 0x00,   // ´ÓÉè±¸¶ÁÈ¡²ÎÊýÕýÈ·
-	IMI_PARAMS_NOT_READ_FROM_DEVICE						 = 0x01,   // ´ÓÎÄ¼þ¶ÁÈ¡ÇÒÎÄ¼þ½âÎöÕýÈ·£¬Î´´ÓÉè±¸¶ÁÈ¡
-	IMI_PARAMS_READ_CRC_NOT_CORRECT						 = 0x02,   //´ÓÉè±¸¶ÁÈ¡Éî¶È²ÎÊý²»ÕýÈ·
-	IMI_PARAMS_READ_SN_NOT_CORRECT						 = 0x03,   //´ÓÉè±¸¶ÁÈ¡SN²»ÕýÈ·
-	IMI_PARAMS_READ_FW_VERSION_NOT_CORRECT               = 0x04,   //´ÓÉè±¸¶ÁÈ¡¹Ì¼þ°æ±¾ºÅ²»ÕýÈ·
-	IMI_PARAMS_READ_DEPTHPARAMS_NOT_CORRECT              = 0x05,   //´ÓÉè±¸¶ÁÈ¡Éî¶È²ÎÊý²»ÕýÈ·
+	IMI_PARAMS_READ_OK									 = 0x00,   // ï¿½ï¿½ï¿½è±¸ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·
+	IMI_PARAMS_NOT_READ_FROM_DEVICE						 = 0x01,   // ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½Î´ï¿½ï¿½ï¿½è±¸ï¿½ï¿½È¡
+	IMI_PARAMS_READ_CRC_NOT_CORRECT						 = 0x02,   //ï¿½ï¿½ï¿½è±¸ï¿½ï¿½È¡ï¿½ï¿½È²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·
+	IMI_PARAMS_READ_SN_NOT_CORRECT						 = 0x03,   //ï¿½ï¿½ï¿½è±¸ï¿½ï¿½È¡SNï¿½ï¿½ï¿½ï¿½È·
+	IMI_PARAMS_READ_FW_VERSION_NOT_CORRECT               = 0x04,   //ï¿½ï¿½ï¿½è±¸ï¿½ï¿½È¡ï¿½Ì¼ï¿½ï¿½æ±¾ï¿½Å²ï¿½ï¿½ï¿½È·
+	IMI_PARAMS_READ_DEPTHPARAMS_NOT_CORRECT              = 0x05,   //ï¿½ï¿½ï¿½è±¸ï¿½ï¿½È¡ï¿½ï¿½È²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·
 };
 
 typedef struct tagImiDeviceParamsStatuse {

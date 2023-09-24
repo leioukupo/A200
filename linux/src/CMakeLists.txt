@@ -1,13 +1,17 @@
+cmake_minimum_required(VERSION 3.1)
 PROJECT(color_viewer)
-cmake_minimum_required(VERSION 3.10)
 # 设置源文件变量
-SET(LOCAL_SRC_FILES main.cpp ../Common/Render.cpp ../Common/Util.cpp)
+#SET(LOCAL_SRC_FILES main.cpp ./Common/Render.cpp ./Common/Util.cpp
+#        test.cpp)
+SET(LOCAL_SRC_FILES test.cpp ./Common/Render.cpp ./Common/Util.cpp
+        test.cpp)
 # 设置头文件搜索路径
 set(CMAKE_INCLUDE_DIRECTORIES_BEFORE on)
 include_directories(./Common)
 include_directories(../include)
-
+include_directories(BEFORE ../libs)
 # 设置动态库搜索路径
+#link_directories(../libs)
 link_directories(../libs)
 
 # glut库 ${GLUT_LIBRARIES}

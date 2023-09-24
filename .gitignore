@@ -1,2 +1,4 @@
 /linux/src/build/
 /win/src/build/
+/.git
+/.idea
