@@ -1,4 +1,5 @@
 /linux/src/build/
+/linux/.vscode
 /win/src/build/
 /.git
 /.idea
