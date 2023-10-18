@@ -3,8 +3,7 @@ PROJECT(color_viewer)
 # 设置源文件变量
 #SET(LOCAL_SRC_FILES main.cpp ./Common/Render.cpp ./Common/Util.cpp
 #        test.cpp)
-SET(LOCAL_SRC_FILES test.cpp ./Common/Render.cpp ./Common/Util.cpp
-        test.cpp)
+SET(LOCAL_SRC_FILES test2.cpp ./Common/Render.cpp ./Common/Util.cpp)
 # 设置头文件搜索路径
 set(CMAKE_INCLUDE_DIRECTORIES_BEFORE on)
 include_directories(./Common)

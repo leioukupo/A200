@@ -21,10 +21,15 @@
 #include <stdio.h>
 #include <string.h>
 
-#define IMAGE_WIDTH					640
+#include "ImiCameraDefines.h"
+#include "ImiCamera.h"
+
+
+#define IMAGE_WIDTH				    640
 #define IMAGE_HEIGHT				480
 #define DEFAULT_PERPIXEL_BITS		16
 #define DEFAULT_FRAMERATE			30
+
 
 // window handle
 SampleRender*   g_pRender = NULL;
@@ -33,17 +38,13 @@ SampleRender*   g_pRender = NULL;
 ImiStreamHandle	g_streams[10] = { NULL };
 uint32_t		g_streamNum = 0;
 
+ImiCameraHandle g_cameraDevice = NULL;
+
 // window callback, called by SampleRender::display()
 static bool needImage(void* pData)
 {
-    static RGB888Pixel	g_colorImage[IMAGE_WIDTH * IMAGE_HEIGHT];
     static RGB888Pixel	g_depthImage[IMAGE_WIDTH * IMAGE_HEIGHT];
-    static bool			g_bColorFrameOK = false;
-    static bool			g_bDepthFrameOK = false;
-    static uint32_t		g_realDepthImageSize = 0;
-    static uint32_t		g_realColorImageSize = 0;
-    static uint32_t		g_realDepthWidth = 0;
-    static uint32_t		g_realDepthHeight = 0;
+    static RGB888Pixel	g_colorImage[IMAGE_WIDTH * IMAGE_HEIGHT];
 
     // wait for stream, -1 means infinite;
     int32_t avStreamIndex;
@@ -64,66 +65,44 @@ static bool needImage(void* pData)
         return true;
     }
 
-    // show to the window
-    if (IMI_COLOR_FRAME == imiFrame->type)
+    uint32_t i;
+    uint16_t * pde = (uint16_t*)imiFrame->pData;
+    for (i = 0; i < imiFrame->size/2; ++i)
     {
-        //uint32_t rgbSize;
-        switch(imiFrame->pixelFormat)
-        {
-            case IMI_PIXEL_FORMAT_IMAGE_H264:
-            case IMI_PIXEL_FORMAT_IMAGE_RGB24:
-            {
-                memcpy((void*)&g_colorImage, (const void*)imiFrame->pData, imiFrame->size);
-                g_realColorImageSize = imiFrame->size;
-                break;
-            }
-            case IMI_PIXEL_FORMAT_IMAGE_YUV420SP:
-            {
-                YUV420SPToRGB((uint8_t*)g_colorImage, (uint8_t*)imiFrame->pData, imiFrame->width, imiFrame->height);
-                g_realColorImageSize = imiFrame->width * imiFrame->height * 3;
-                break;
-            }
-            default:
-            {
-                break;
-            }
-        }
-        g_bColorFrameOK = true;
-    }
-    else //IMI_DEPTH_FRAME == imiFrame->type
-    {
-        uint32_t i;
-        uint16_t * pde = (uint16_t*)imiFrame->pData;
-        for (i = 0; i < imiFrame->size/2; ++i)
-        {
-            g_depthImage[i].r = pde[i] >> 3;
-            g_depthImage[i].g = g_depthImage[i].b = g_depthImage[i].r;
-        }
-        g_realDepthImageSize = i;
-        g_realDepthWidth = imiFrame->width;
-        g_realDepthHeight = imiFrame->height;
-        g_bDepthFrameOK = true;
+        g_depthImage[i].r = pde[i] >> 3;
+        g_depthImage[i].g = g_depthImage[i].b = g_depthImage[i].r;
     }
 
-    if (g_bColorFrameOK && g_bDepthFrameOK)
-    {
-        g_pRender->initViewPort();
 
-        WindowHint hint(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
-        g_pRender->draw((uint8_t*)g_colorImage, g_realColorImageSize, hint);
-
-        hint.x += IMAGE_WIDTH;
-        hint.w = g_realDepthWidth;
-        hint.h = g_realDepthHeight;
-        g_pRender->draw((uint8_t*)g_depthImage, g_realDepthImageSize, hint);
-
-        g_pRender->update();
-
-        g_bColorFrameOK = false;
-        g_bDepthFrameOK = false;
+    ImiCameraFrame* pCamFrame = NULL;
+    if(0 != imiCamReadNextFrame(g_cameraDevice, &pCamFrame, 40)) {
+        imiReleaseFrame(&imiFrame);
+        return false;
     }
 
+    if(NULL == pCamFrame) {
+        imiReleaseFrame(&imiFrame);
+        return true;
+    }
+
+    memcpy((void*)&g_colorImage, (const void*)pCamFrame->pData, pCamFrame->size);
+
+    g_pRender->initViewPort();
+
+    WindowHint hint(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
+    g_pRender->draw((uint8_t*)g_colorImage, pCamFrame->size, hint);
+
+    hint.x += IMAGE_WIDTH;
+    hint.w = imiFrame->width;
+    hint.h = imiFrame->height;
+    g_pRender->draw((uint8_t*)g_depthImage, imiFrame->size, hint);
+
+    g_pRender->update();
+
+
+    imiCamReleaseFrame(&pCamFrame);
     imiReleaseFrame(&imiFrame);
+
     return true;
 
 }
@@ -138,12 +117,33 @@ int main(int argc, char** argv)
         return -1;
     }
     printf("ImiNect Init Success.\n");
+//    获取相机支持的帧模式
+//    const ImiCameraFrameMode** pModes;
+//    uint32_t* pNumber= nullptr;
+//    imiCamGetSupportFrameModes(g_cameraDevice, pModes, nullptr);
+//    printf("mode number %n\n",pNumber);
+    // open UVC camera
+
+    if(0 != imiCamOpen(&g_cameraDevice)) {
+        printf("Open UVC Camera Failed!\n");
+        getchar();
+        return -1;
+    }
+
+//    ImiCameraFrameMode frameMode = {CAMERA_PIXEL_FORMAT_RGB888, 640, 480, 30};
+    if(0 != imiCamStartStream2(g_cameraDevice)) {
+        printf("Start Camera stream Failed!\n");
+        imiCamClose(g_cameraDevice);
+
+        getchar();
+        return -1;
+    }
 
     //2.imiGetDeviceList()
     ImiDeviceAttribute* pDeviceAttr = NULL;
     uint32_t deviceCount = 0;
     imiGetDeviceList(&pDeviceAttr, &deviceCount);
-    if(deviceCount <= 0 || NULL == pDeviceAttr)
+    if( deviceCount <= 0 || NULL == pDeviceAttr )
     {
         printf("Get No Connected Imidevice!");
         imiDestroy();
@@ -152,31 +152,16 @@ int main(int argc, char** argv)
     }
     printf("Get %d Connected Imidevice.\n", deviceCount);
 
-    //3.imiOpenDevice()
+
     ImiDeviceHandle pImiDevice = NULL;
+
+    //3.imiOpenDevice()
     if (0 != imiOpenDevice(pDeviceAttr[0].uri, &pImiDevice, IMI_DEVICE_CAMERA))
     {
         printf("Open Imidevice Failed!\n");
         goto exit;
     }
     printf("Imidevice Opened.\n");
-
-    //4.imiSetFrameMode()
-    ImiFrameMode frameMode;
-    frameMode.pixelFormat = IMI_PIXEL_FORMAT_IMAGE_YUV420SP;
-    frameMode.resolutionX = IMAGE_WIDTH;
-    frameMode.resolutionY = IMAGE_HEIGHT;
-    frameMode.bitsPerPixel = DEFAULT_PERPIXEL_BITS;
-    frameMode.framerate = DEFAULT_FRAMERATE;
-    imiSetFrameMode(pImiDevice, IMI_COLOR_FRAME, &frameMode);
-
-    //5.imiOpenStream()
-    if (0 != imiOpenStream(pImiDevice, IMI_COLOR_FRAME, NULL, NULL, &g_streams[g_streamNum++]))
-    {
-        printf("Open Color Stream Failed!\n");
-        goto exit;
-    }
-    printf("Open Color Stream Success.\n");
 
     if (0 != imiOpenStream(pImiDevice, IMI_DEPTH_FRAME, NULL, NULL, &g_streams[g_streamNum++]))
     {
@@ -187,13 +172,22 @@ int main(int argc, char** argv)
 
 
     //6.create window and set read Stream frame data callback
-    g_pRender = new SampleRender("ColorDepthView", IMAGE_WIDTH * 2, IMAGE_HEIGHT); // window title & size
+    g_pRender = new SampleRender("UVCDepthViewer", IMAGE_WIDTH * 2, IMAGE_HEIGHT); // window title & size
     g_pRender->init(argc, argv);
     g_pRender->setDataCallback(needImage, NULL);
+
     g_pRender->run();
 
     exit:
+
+    if(NULL != g_cameraDevice) {
+        imiCamStopStream(g_cameraDevice);
+        imiCamClose(g_cameraDevice);
+        g_cameraDevice = NULL;
+    }
+
     //7.imiCloseStream()
+    for (uint32_t num = 0; num < g_streamNum; ++num)
     for (uint32_t num = 0; num < g_streamNum; ++num)
     {
         if (NULL != g_streams[num])

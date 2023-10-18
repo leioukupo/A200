@@ -122,10 +122,10 @@ int Exit()
 int main(int argc, char **argv)
 {
 	// 1.imiInitialize()
-	//  ImiDriverInfo *A;
-	//  A->driverType= 0x00;
-	//  printf("%x",A->driverType);
-	//  int32_t retur = imiInitialize2(A);
+	  ImiDriverInfo *A;
+	  A->driverType= 0x00;
+	  printf("%x",A->driverType);
+//	  int32_t retur = imiInitialize2(A);
 	int retur = imiInitialize();
 	if (0 != retur)
 	{
