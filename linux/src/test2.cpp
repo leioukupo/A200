@@ -25,77 +25,72 @@
 #include "ImiCamera.h"
 
 
-#define IMAGE_WIDTH				    640
-#define IMAGE_HEIGHT				480
-#define DEFAULT_PERPIXEL_BITS		16
-#define DEFAULT_FRAMERATE			30
+#define IMAGE_WIDTH                    640
+#define IMAGE_HEIGHT                480
+#define DEFAULT_PERPIXEL_BITS        16
+#define DEFAULT_FRAMERATE            30
 
 
 // window handle
-SampleRender*   g_pRender = NULL;
+SampleRender *g_pRender = NULL;
 
 // stream handles
-ImiStreamHandle	g_streams[10] = { NULL };
-uint32_t		g_streamNum = 0;
+ImiStreamHandle g_streams[10] = {NULL};
+uint32_t g_streamNum = 0;
 
 ImiCameraHandle g_cameraDevice = NULL;
 
 // window callback, called by SampleRender::display()
-static bool needImage(void* pData)
-{
-    static RGB888Pixel	g_depthImage[IMAGE_WIDTH * IMAGE_HEIGHT];
-    static RGB888Pixel	g_colorImage[IMAGE_WIDTH * IMAGE_HEIGHT];
+static bool needImage(void *pData) {
+    static RGB888Pixel g_depthImage[IMAGE_WIDTH * IMAGE_HEIGHT];
+    static RGB888Pixel g_colorImage[IMAGE_WIDTH * IMAGE_HEIGHT];
 
     // wait for stream, -1 means infinite;
     int32_t avStreamIndex;
-    if (0 != imiWaitForStreams(g_streams, g_streamNum, &avStreamIndex, 100))
-    {
+    if (0 != imiWaitForStreams(g_streams, g_streamNum, &avStreamIndex, 100)) {
         return false;
     }
 
     // frame coming, read.
-    ImiImageFrame* imiFrame = NULL;
-    if (0 != imiReadNextFrame(g_streams[avStreamIndex], &imiFrame, 30))
-    {
+    ImiImageFrame *imiFrame = NULL;
+    if (0 != imiReadNextFrame(g_streams[avStreamIndex], &imiFrame, 30)) {
         return false;
     }
 
-    if (NULL == imiFrame)
-    {
+    if (NULL == imiFrame) {
         return true;
     }
 
     uint32_t i;
-    uint16_t * pde = (uint16_t*)imiFrame->pData;
-    for (i = 0; i < imiFrame->size/2; ++i)
-    {
+    uint16_t *pde = (uint16_t *) imiFrame->pData;
+    for (i = 0; i < imiFrame->size / 2; ++i) {
         g_depthImage[i].r = pde[i] >> 3;
         g_depthImage[i].g = g_depthImage[i].b = g_depthImage[i].r;
     }
 
 
-    ImiCameraFrame* pCamFrame = NULL;
-    if(0 != imiCamReadNextFrame(g_cameraDevice, &pCamFrame, 40)) {
+    ImiCameraFrame *pCamFrame = NULL;
+    if (0 != imiCamReadNextFrame(g_cameraDevice, &pCamFrame, 40)) {
         imiReleaseFrame(&imiFrame);
         return false;
     }
 
-    if(NULL == pCamFrame) {
+    if (NULL == pCamFrame) {
         imiReleaseFrame(&imiFrame);
         return true;
     }
 
-    memcpy((void*)&g_colorImage, (const void*)pCamFrame->pData, pCamFrame->size);
+    memcpy((void *) &g_colorImage, (const void *) pCamFrame->pData, pCamFrame->size);
 
     g_pRender->initViewPort();
 
     WindowHint hint(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
-    g_pRender->draw((uint8_t*)g_colorImage, pCamFrame->size, hint);
+    g_pRender->draw((uint8_t *) g_colorImage, pCamFrame->size, hint);
 
     hint.x += IMAGE_WIDTH;
     hint.w = imiFrame->width;
     hint.h = imiFrame->height;
-    g_pRender->draw((uint8_t*)g_depthImage, imiFrame->size, hint);
+    g_pRender->draw((uint8_t *) g_depthImage, imiFrame->size, hint);
 
     g_pRender->update();
 
@@ -107,11 +102,9 @@ static bool needImage(void* pData)
 
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char **argv) {
     //1.imiInitialize()
-    if (0 != imiInitialize())
-    {
+    if (0 != imiInitialize()) {
         printf("ImiNect Init Failed!\n");
         getchar();
         return -1;
@@ -124,14 +117,14 @@ int main(int argc, char** argv)
 //    printf("mode number %n\n",pNumber);
     // open UVC camera
 
-    if(0 != imiCamOpen(&g_cameraDevice)) {
+    if (0 != imiCamOpen(&g_cameraDevice)) {
         printf("Open UVC Camera Failed!\n");
         getchar();
         return -1;
     }
 
 //    ImiCameraFrameMode frameMode = {CAMERA_PIXEL_FORMAT_RGB888, 640, 480, 30};
-    if(0 != imiCamStartStream2(g_cameraDevice)) {
+    if (0 != imiCamStartStream2(g_cameraDevice)) {
         printf("Start Camera stream Failed!\n");
         imiCamClose(g_cameraDevice);
 
@@ -140,11 +133,10 @@ int main(int argc, char** argv)
     }
 
     //2.imiGetDeviceList()
-    ImiDeviceAttribute* pDeviceAttr = NULL;
+    ImiDeviceAttribute *pDeviceAttr = NULL;
     uint32_t deviceCount = 0;
     imiGetDeviceList(&pDeviceAttr, &deviceCount);
-    if( deviceCount <= 0 || NULL == pDeviceAttr )
-    {
+    if (deviceCount <= 0 || NULL == pDeviceAttr) {
         printf("Get No Connected Imidevice!");
         imiDestroy();
         getchar();
@@ -156,15 +148,13 @@ int main(int argc, char** argv)
     ImiDeviceHandle pImiDevice = NULL;
 
     //3.imiOpenDevice()
-    if (0 != imiOpenDevice(pDeviceAttr[0].uri, &pImiDevice, IMI_DEVICE_CAMERA))
-    {
+    if (0 != imiOpenDevice(pDeviceAttr[0].uri, &pImiDevice, IMI_DEVICE_CAMERA)) {
         printf("Open Imidevice Failed!\n");
         goto exit;
     }
     printf("Imidevice Opened.\n");
 
-    if (0 != imiOpenStream(pImiDevice, IMI_DEPTH_FRAME, NULL, NULL, &g_streams[g_streamNum++]))
-    {
+    if (0 != imiOpenStream(pImiDevice, IMI_DEPTH_FRAME, NULL, NULL, &g_streams[g_streamNum++])) {
         printf("Open Depth Stream Failed!\n");
         goto exit;
     }
@@ -180,7 +170,7 @@ int main(int argc, char** argv)
 
     exit:
 
-    if(NULL != g_cameraDevice) {
+    if (NULL != g_cameraDevice) {
         imiCamStopStream(g_cameraDevice);
         imiCamClose(g_cameraDevice);
         g_cameraDevice = NULL;
@@ -188,31 +178,26 @@ int main(int argc, char** argv)
 
     //7.imiCloseStream()
     for (uint32_t num = 0; num < g_streamNum; ++num)
-    for (uint32_t num = 0; num < g_streamNum; ++num)
-    {
-        if (NULL != g_streams[num])
-        {
-            imiCloseStream(g_streams[num]);
+        for (uint32_t num = 0; num < g_streamNum; ++num) {
+            if (NULL != g_streams[num]) {
+                imiCloseStream(g_streams[num]);
+            }
         }
-    }
 
     //8.imiCloseDevice()
-    if (NULL != pImiDevice)
-    {
+    if (NULL != pImiDevice) {
         imiCloseDevice(pImiDevice);
     }
 
     //9.imiReleaseDeviceList()
-    if(NULL != pDeviceAttr)
-    {
+    if (NULL != pDeviceAttr) {
         imiReleaseDeviceList(&pDeviceAttr);
     }
 
     //10.imiDestroy()
     imiDestroy();
 
-    if (NULL != g_pRender)
-    {
+    if (NULL != g_pRender) {
         delete g_pRender;
         g_pRender = NULL;
     }
