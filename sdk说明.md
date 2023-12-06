@@ -229,7 +229,7 @@ const char* imiGetErrorString(int32_t nErrorCode)
 > **可能的错误码**：
 > 0x80300206 参数取值非法
 
-### 设置日志生菜路径
+### 设置日志生成路径
 
 ```c++
 int32_t imiSetLogOutputDir(const char* pOutputDir)
@@ -1064,4 +1064,20 @@ int32_t  imiUnSelectUser (const ImiDeviceHandle device, uint32_t userId)
 |:----:|:-----------------------------:|
 |  0   |             操作成功              |
 | 小于 0 | 操作失败，imiGetLastError()获取详细错误码 |
+
+# Demo
+
+**API调用时序**
+![API调用时序图](./.img/API调用时序.png)
+
+**UVC Camera API时序**
+![UVC Camera API时序](./.img/UVC%20Camera%20API.png)
+
+## 打开单路流
+> 不同的流（color，depth，IR）通过设置imiOpenStream的第二个参数（IMI_COLOR_FRAME，IMI_DEPTH_FRAME，IMI_IR_FRAME）来实现
+
+
+<div align=center>
+	<img src=./.img/打开普通彩色-深度-红外摄像头.png/>
+</div>
 
