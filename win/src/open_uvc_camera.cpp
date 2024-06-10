@@ -6,7 +6,6 @@
 //
 
 #include <cstdio>
-
 #ifndef _WIN32
 #include <unistd.h>
 #endif
@@ -86,6 +85,10 @@ static bool needImage(void *pData) {
     printf("size: %d\n", pFrame->size);
     printf("rotationAngle: %u\n", pFrame->rotationAngle);
     printf("bitPerPixel: %d\n", pFrame->bitPerPixel);
+    volatile int count = 0;
+    for (int i = 0; i < 500 * 10000; ++i) {
+        ++count; // 空操作
+    }
     return true;
 }
 int Exit() {
@@ -142,12 +145,30 @@ int main() {
         printf("imiCamOpen success\n");
     // 4.打开流
     //设置帧模式
-    pMode->fps=15;
+    pMode = new ImiCameraFrameMode();
+    pMode->fps = 30;
     pMode->resolutionX=640;
     pMode->resolutionY=480;
     pMode->pixelFormat=CAMERA_PIXEL_FORMAT_RGB888;
-    imiCamStartStream(g_ImiCamera, pMode);
-    printf("Open Depth Stream Success.\n");
+//    imiCamStartStream(g_ImiCamera, pMode);
+    int32_t a = 5;
+    do {
+        a = imiCamStartStream2(g_ImiCamera);
+        volatile int count = 0;
+        for (int i = 0; i < 500 * 10000; ++i) {
+            ++count; // 空操作
+        }
+        printf("%d\n", a);
+    } while (a != 0);
+//    if (imiCamStartStream(g_ImiCamera, pMode)==0){
+//        printf("Open UVC Stream Success.\n");
+//    }
+//    else{
+//        printf("Open UVC Stream Failed.\n");
+//        int32_t error_code;
+//        printf("error_code: %s\n", imiGetErrorString(imiGetLastError()));
+//        return -1;
+//    }
 //    6. 渲染
     g_pRender = new SampleRender("UVC View", pMode->resolutionX, pMode->resolutionY);  // window title & size
     g_pRender->init(0, nullptr);

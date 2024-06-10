@@ -1126,16 +1126,20 @@ TODO: 彩色图暂时无法打开
 
 > pixelFormat: 0   
 > frameType: 0   
-frameIndex: 158   
-timestamp: 2463839000   
-dataSize: 25   
-width: 480   
-height: 640   
-size: 614400   
-rotationAngle: 0   
-bitPerPixel: 32
+> frameIndex: 158   
+> timestamp: 2463839000   
+> dataSize: 25   
+> width: 480   
+> height: 640   
+> size: 614400   
+> rotationAngle: 0   
+> bitPerPixel: 32
 ## 打开UVC彩色摄像头
 <div align=center>
      <img src="./.img/打开UVC彩色摄像头.png"/>
 </div>
-file: open_uvc_camera.cpp
+file: open_uvc_camera.cpp      
+
+> 无法接收数据, 初始化均正常, int32_t imiCamStartStream(ImiCameraHandle cameraDevice, const ImiCameraFrameMode* pMode)
+> 无法开始流
+> int32_t imiCamStartStream2(ImiCameraHandle cameraDevice)可以打开流，需要处理下frame才能显示
