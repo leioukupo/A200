@@ -1,5 +1,6 @@
-PROJECT(A200_win)
 cmake_minimum_required(VERSION 3.10)
+PROJECT(A200_win)
+
 
 
 # 设置源文件变量
@@ -41,3 +42,17 @@ add_executable(point_viewer ${PointCloudViewer_SRC})
 target_link_libraries(point_viewer freeglut ${OPENGL_LIBRARIES})
 target_link_libraries(point_viewer ImiCamera)
 target_link_libraries(point_viewer iminect)
+# 单路流
+## 打开普通彩色深度红外图像
+SET(test_SRC open_signal_steam.cpp ./Common/Render.cpp ./Common/Util.cpp)
+#SET(test_SRC test.cpp ./Common/Render.cpp ./Common/Util.cpp)
+add_executable(test ${test_SRC})
+target_link_libraries(test freeglut ${OPENGL_LIBRARIES})
+target_link_libraries(test ImiCamera)
+target_link_libraries(test iminect)
+## 打开UVC彩色图像
+SET(UVC_SRC open_uvc_camera.cpp ./Common/Render.cpp ./Common/Util.cpp)
+add_executable(UVC ${UVC_SRC})
+target_link_libraries(UVC freeglut ${OPENGL_LIBRARIES})
+target_link_libraries(UVC ImiCamera)
+target_link_libraries(UVC iminect)

@@ -164,7 +164,11 @@ void calculateHistogram(float *pHistogram, int histogramSize, const ImiImageFram
         }
     }
 }
-
+void processImage(RGB888Pixel *image, uint32_t size) {
+    for (uint32_t i = 0; i < size; ++i) {
+        image[i].r = std::min(255, image[i].r + 50);
+    }
+}
 // window callback, called by SampleRender::display()
 static bool needImage(void *pData) {
     static float s_depthHist[MAX_DEPTH];
@@ -181,7 +185,17 @@ static bool needImage(void *pData) {
     if (nullptr == pFrame) {
         return false;
     }
-
+    printf("pixelFormat: %d\n", pFrame->pixelFormat);
+    printf("frameType: %d\n", pFrame->type);
+    printf("frameIndex: %d\n", pFrame->frameNum);
+    printf("timestamp: %llu\n", pFrame->timeStamp);
+    printf("dataSize: %d\n", pFrame->fps);
+    printf("width: %d\n", pFrame->width);
+    printf("height: %d\n", pFrame->height);
+    printf("size: %d\n", pFrame->size);
+    printf("rotationAngle: %u\n", pFrame->rotationAngle);
+    printf("bitPerPixel: %d\n", pFrame->bitPerPixel);
+//    在color_viewer中，怎么使得在render显示图像之前，把深度图转成点云
     // Calculate histogram
     calculateHistogram(s_depthHist, MAX_DEPTH, pFrame);
 
@@ -222,7 +236,7 @@ static bool needImage(void *pData) {
 
         g_bSave = false;
     }
-
+//    processImage(s_rgbImage, rgbSize);
     // Draw
     g_pRender->draw(-1, (uint8_t *) s_rgbImage, rgbSize, pFrame->width, pFrame->height, &pFrame);
 

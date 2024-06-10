@@ -760,7 +760,7 @@ int32_t getCamAttrList(ImiCamAttribute** pList, int32_t* nCount)
 | 小于 0 | 操作失败，imiGetLastError()获取详细错误码 |
 
 ### 打开uvc camera
-
+#### 通用
 ```c++
 int32_t imiCamOpenURI(const char* pURI, ImiCameraHandle* pCameraDevice)
 ```
@@ -769,6 +769,43 @@ int32_t imiCamOpenURI(const char* pURI, ImiCameraHandle* pCameraDevice)
 |:----------------:|:-------------:|:------------:|:------:|
 |   const char*    |     pURI      | Camera 的 URI |   IN   |
 | ImiCameraHandle* | pCameraDevice | Camera 的句柄指针 |  OUT   |
+
+|  值   |  说明  |
+|:----:|:----:|
+|  0   | 操作成功 |
+| 小于 0 | 操作失败 |
+
+#### 打开UVC Camera, 仅支持在Windows上使用
+```c++
+int32_t imiCamOpen (ImiCameraHandle* pCameraDevice)
+```
+
+|       Type       |     Name      | Description  | IN/OUT |
+|:----------------:|:-------------:|:------------:|:------:|
+|   ImiCameraHandle*    |     pCameraDevice     | 指向CameraDevice的指针 |  OUT   |
+
+
+|  值   |  说明  |
+|:----:|:----:|
+|  0   | 操作成功 |
+| 小于 0 | 操作失败 |
+
+#### 打开UVC Camera, 仅支持在Android平台上使用
+```c++
+int32_t imiCamOpen2(int32_t vid, int32_t pid, int32_t fd, int32_t busnum, int32_t devaddr, const char 
+*usbfs, ImiCameraHandle* pCameraDevice) 
+```
+
+
+|       Type       |     Name      |            Description            | IN/OUT |
+|:----------------:|:-------------:|:---------------------------------:|:------:|
+|   int32_t    |      vid      |            设备VendorID             |   IN   |
+|   int32_t    |      pid      |            设备ProductID            |   IN   |
+|   int32_t    |      fd       |   UVC Camera在android上挂载的设备节点描述符   |      IN       |
+|   int32_t    |    busnum     |  UVC Camera在android上的设备节点    编号   |      IN       |
+|   int32_t    |    devaddr    |     UVC Camera 在android上的设备地址     |   IN   |
+|   const char    |    *usbfs     |    UVC Camera 在android上的设备URI     |   IN   |
+|   ImiCameraHandle*    | pCameraDevice |         指向CameraDevice的指针         |  OUT   |
 
 |  值   |  说明  |
 |:----:|:----:|
@@ -1068,16 +1105,37 @@ int32_t  imiUnSelectUser (const ImiDeviceHandle device, uint32_t userId)
 # Demo
 
 **API调用时序**
-![API调用时序图](./.img/API调用时序.png)
+
+<img alt="API调用时序图" src="./.img/API调用时序.png"/>
 
 **UVC Camera API时序**
-![UVC Camera API时序](./.img/UVC%20Camera%20API.png)
+
+<img alt="UVC Camera API时序" src="./.img/UVC_Camera_API.png"/>
 
 ## 打开单路流
+## 打开普通彩色深度红外图像
+file: open_single_stream.cpp
 > 不同的流（color，depth，IR）通过设置imiOpenStream的第二个参数（IMI_COLOR_FRAME，IMI_DEPTH_FRAME，IMI_IR_FRAME）来实现
-
 
 <div align=center>
 	<img src=./.img/打开普通彩色-深度-红外摄像头.png/>
 </div>
+TODO: 彩色图暂时无法打开
 
+- 深度图的格式
+
+> pixelFormat: 0   
+> frameType: 0   
+frameIndex: 158   
+timestamp: 2463839000   
+dataSize: 25   
+width: 480   
+height: 640   
+size: 614400   
+rotationAngle: 0   
+bitPerPixel: 32
+## 打开UVC彩色摄像头
+<div align=center>
+     <img src="./.img/打开UVC彩色摄像头.png"/>
+</div>
+file: open_uvc_camera.cpp

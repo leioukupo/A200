@@ -1,5 +1,21 @@
 # ninja log v5
-168	1713	7047986743471128	CMakeFiles/color_viewer.dir/Common/Util.cpp.obj	761c50bec3dd7172
-2227	3194	7047986758245824	color_viewer.exe	4fa60589c52b4947
-3	1717	7047986743511156	CMakeFiles/color_viewer.dir/main.cpp.obj	cf6b1b20d06e9d8b
-214	2222	7047986748574388	CMakeFiles/color_viewer.dir/Common/Render.cpp.obj	38f06c2b0540667b
+213	286	7397093717192282	color_viewer.exe	1b741bb6f1969347
+26	228	7347670091732576	CMakeFiles/color_viewer.dir/Common/Util.cpp.obj	ba1be4845ad99cb3
+4	195	7397059892471951	CMakeFiles/test.dir/test.cpp.obj	1b8e9d8908c66970
+24	775	7347670097211588	CMakeFiles/color_viewer.dir/Common/Render.cpp.obj	c7cef24450b3ed2f
+2	190	7397127184408856	build.ninja	ea83f4d2bbc8651
+8	1210	7367604902768612	CMakeFiles/depth_viewer.dir/Common/Render.cpp.obj	18e83a3e63bf0005
+31	1441	7392096389064923	CMakeFiles/test.dir/Common/Render.cpp.obj	1b5a7f7e43524c3e
+3	213	7397093716479809	CMakeFiles/color_viewer.dir/color_viewer.cpp.obj	e3c5f992f24ec3a5
+34	321	7392096377866551	CMakeFiles/test.dir/Common/Util.cpp.obj	ddf43efd952a1fd5
+11	121	7367604891881095	CMakeFiles/depth_viewer.dir/Common/Util.cpp.obj	d2d2f5fe4e5774df
+182	256	7397089323058066	test.exe	db0d20d3e5ec0920
+4	197	7367604892643737	CMakeFiles/depth_viewer.dir/DepthViewer.cpp.obj	208365319f8c597a
+1215	1297	7367604903611538	depth_viewer.exe	23ed1c1468d20db3
+6	811	7367604810082052	CMakeFiles/a.dir/helloword.cpp.obj	ce2db04e2e30f74f
+811	998	7367604811943230	a.exe	9ebca951bb6f9989
+4	182	7397089322335560	CMakeFiles/test.dir/open_signal_steam.cpp.obj	5d743a93551a8803
+7	94	7397127366072160	CMakeFiles/UVC.dir/Common/Util.cpp.obj	fd36a9d871196628
+5	697	7397127372093046	CMakeFiles/UVC.dir/Common/Render.cpp.obj	84c43723f83d5620
+3	172	7397128298606420	CMakeFiles/UVC.dir/open_uvc_camera.cpp.obj	863c12bb4bb92cd8
+173	254	7397128299409203	UVC.exe	ee3eada561ab2706
