@@ -1140,6 +1140,8 @@ TODO: 彩色图暂时无法打开
 </div>
 file: open_uvc_camera.cpp      
 
-> 无法接收数据, 初始化均正常, int32_t imiCamStartStream(ImiCameraHandle cameraDevice, const ImiCameraFrameMode* pMode)
-> 无法开始流
-> int32_t imiCamStartStream2(ImiCameraHandle cameraDevice)可以打开流，需要处理下frame才能显示
+da> ~~无法接收数据, 初始化均正常, int32_t imiCamStartStream(ImiCameraHandle cameraDevice, const ImiCameraFrameMode*
+pMode)~~
+> ~~无法开始流~~     
+> ~~int32_t imiCamStartStream2(ImiCameraHandle cameraDevice)可以打开流，需要处理下frame才能显示~~            
+> pdata是raw数据, 需要进行去拜耳阵列处理才能转成rgb数据   

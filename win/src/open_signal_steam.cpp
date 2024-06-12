@@ -82,6 +82,8 @@ static bool needImage(void *pData) {
     printf("size: %d\n", pFrame->size);
     printf("rotationAngle: %u\n", pFrame->rotationAngle);
     printf("bitPerPixel: %d\n", pFrame->bitPerPixel);
+//    TODO:处理接收数据,使得可以显示 解码
+    imiReleaseFrame(&pFrame);
     return true;
 }
 int Exit() {
@@ -149,7 +151,7 @@ int main() {
     p= &a;
     ret = imiOpenStream(g_ImiDevice, IMI_DEPTH_FRAME, Open_streamCallback(p), p, &g_streams[g_streamNum++]);
     if (0 != ret) {
-            printf("Open Color Stream Failed! ret = %d\n", ret);
+        printf("Open Depth Stream Failed! ret = %d\n", ret);
         return -1;
     }
     printf("Open Depth Stream Success.\n");
