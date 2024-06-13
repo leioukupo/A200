@@ -215,10 +215,10 @@ int main() {
     //设置帧模式
     pMode = new ImiCameraFrameMode();
     pMode->fps = 30;
-    pMode->resolutionX=640;
-    pMode->resolutionY=480;
+    pMode->resolutionX = 480;
+    pMode->resolutionY = 640;
     pMode->pixelFormat=CAMERA_PIXEL_FORMAT_RGB888;
-//    imiCamStartStream(g_ImiCamera, pMode);
+    imiCamSetFrameMode(g_ImiCamera, pMode);
     int32_t a = 5;
     do {
         a = imiCamStartStream2(g_ImiCamera);
