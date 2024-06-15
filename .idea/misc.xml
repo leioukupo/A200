@@ -3,7 +3,7 @@
   <component name="CMakePythonSetting">
     <option name="pythonIntegrationState" value="YES" />
   </component>
-  <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$/win/3rdparty/opencv">
+  <component name="CMakeWorkspace" PROJECT_DIR="$PROJECT_DIR$/win/src">
     <contentRoot DIR="$PROJECT_DIR$" />
   </component>
 </project>

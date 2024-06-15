@@ -26,8 +26,8 @@ endif ()
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
 # opencv库
-set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/../3rdparty/opencv)
-find_package(OpenCV REQUIRED PATHS ${OpenCV_DIR}/build NO_DEFAULT_PATH)
+#set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/../3rdparty/opencv)
+#find_package(OpenCV REQUIRED PATHS ${OpenCV_DIR}/build NO_DEFAULT_PATH)
 
 # color_viewer
 add_executable(color_viewer ${Color_SRC})
