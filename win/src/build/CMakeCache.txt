@@ -257,12 +257,6 @@ OPENGL_gl_LIBRARY:STRING=opengl32
 //GLU library for win32
 OPENGL_glu_LIBRARY:STRING=glu32
 
-//The directory containing a CMake configuration file for OpenCV.
-OpenCV_DIR:PATH=OpenCV_DIR-NOTFOUND
-
-//The directory containing a CMake configuration file for OpenCv.
-OpenCv_DIR:PATH=OpenCv_DIR-NOTFOUND
-
 
 ########################
 # INTERNAL cache entries
