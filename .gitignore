@@ -6,3 +6,4 @@
 /.vscode
 /build
 /win/3rdparty/opencv/build/
+/win/3rdparty/opencv/release/
