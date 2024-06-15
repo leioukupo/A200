@@ -278,6 +278,55 @@ build UVC.exe: CXX_EXECUTABLE_LINKER__UVC_Debug CMakeFiles/UVC.dir/open_uvc_came
   TARGET_IMPLIB = libUVC.dll.a
   TARGET_PDB = UVC.exe.dbg
 
+# =============================================================================
+# Object build statements for EXECUTABLE target Two_stream
+
+
+#############################################
+# Order-only phony target for Two_stream
+
+build cmake_object_order_depends_target_Two_stream: phony || CMakeFiles/Two_stream.dir
+
+build CMakeFiles/Two_stream.dir/open_two_stream.cpp.obj: CXX_COMPILER__Two_stream_unscanned_Debug C$:/Users/leioukupo/Desktop/A200/win/src/open_two_stream.cpp || cmake_object_order_depends_target_Two_stream
+  DEP_FILE = CMakeFiles\Two_stream.dir\open_two_stream.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/leioukupo/Desktop/A200/win/src/../Include/GL -IC:/Users/leioukupo/Desktop/A200/win/src/../Include/ImiNect -IC:/Users/leioukupo/Desktop/A200/win/src/./Common
+  OBJECT_DIR = CMakeFiles\Two_stream.dir
+  OBJECT_FILE_DIR = CMakeFiles\Two_stream.dir
+
+build CMakeFiles/Two_stream.dir/Common/Render.cpp.obj: CXX_COMPILER__Two_stream_unscanned_Debug C$:/Users/leioukupo/Desktop/A200/win/src/Common/Render.cpp || cmake_object_order_depends_target_Two_stream
+  DEP_FILE = CMakeFiles\Two_stream.dir\Common\Render.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/leioukupo/Desktop/A200/win/src/../Include/GL -IC:/Users/leioukupo/Desktop/A200/win/src/../Include/ImiNect -IC:/Users/leioukupo/Desktop/A200/win/src/./Common
+  OBJECT_DIR = CMakeFiles\Two_stream.dir
+  OBJECT_FILE_DIR = CMakeFiles\Two_stream.dir\Common
+
+build CMakeFiles/Two_stream.dir/Common/Util.cpp.obj: CXX_COMPILER__Two_stream_unscanned_Debug C$:/Users/leioukupo/Desktop/A200/win/src/Common/Util.cpp || cmake_object_order_depends_target_Two_stream
+  DEP_FILE = CMakeFiles\Two_stream.dir\Common\Util.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  INCLUDES = -IC:/Users/leioukupo/Desktop/A200/win/src/../Include/GL -IC:/Users/leioukupo/Desktop/A200/win/src/../Include/ImiNect -IC:/Users/leioukupo/Desktop/A200/win/src/./Common
+  OBJECT_DIR = CMakeFiles\Two_stream.dir
+  OBJECT_FILE_DIR = CMakeFiles\Two_stream.dir\Common
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target Two_stream
+
+
+#############################################
+# Link the executable Two_stream.exe
+
+build Two_stream.exe: CXX_EXECUTABLE_LINKER__Two_stream_Debug CMakeFiles/Two_stream.dir/open_two_stream.cpp.obj CMakeFiles/Two_stream.dir/Common/Render.cpp.obj CMakeFiles/Two_stream.dir/Common/Util.cpp.obj
+  FLAGS = -g
+  LINK_LIBRARIES = -lfreeglut  -lopengl32  -lglu32  -lImiCamera  -liminect  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  LINK_PATH = -LC:/Users/leioukupo/Desktop/A200/win/src/../Redist/x64   -LC:/Users/leioukupo/Desktop/A200/win/src/../3rdparty/freeglut-2.8.1/lib/x64/Release
+  OBJECT_DIR = CMakeFiles\Two_stream.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_FILE = Two_stream.exe
+  TARGET_IMPLIB = libTwo_stream.dll.a
+  TARGET_PDB = Two_stream.exe.dbg
+
 
 #############################################
 # Utility command for edit_cache
@@ -304,6 +353,8 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
+build Two_stream: phony Two_stream.exe
+
 build UVC: phony UVC.exe
 
 build color_viewer: phony color_viewer.exe
@@ -322,7 +373,7 @@ build test: phony test.exe
 #############################################
 # Folder: C:/Users/leioukupo/Desktop/A200/win/src/build
 
-build all: phony color_viewer.exe depth_viewer.exe point_viewer.exe test.exe UVC.exe
+build all: phony color_viewer.exe depth_viewer.exe point_viewer.exe test.exe UVC.exe Two_stream.exe
 
 # =============================================================================
 # Built-in targets

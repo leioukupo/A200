@@ -1145,3 +1145,14 @@ pMode)~~
 > ~~无法开始流~~     
 > ~~int32_t imiCamStartStream2(ImiCameraHandle cameraDevice)可以打开流，需要处理下frame才能显示~~            
 > pdata是raw数据, 需要进行去拜耳阵列处理才能转成rgb数据   
+## 打开两路流
+### 打开不带UVC彩色流和深度流
+<div align=center>
+    <img src=./.img/打开不带UVC的深度和彩色.png/>
+</div>
+file: open_two_stream.cpp
+
+### 打开带UVC彩色流和深度流
+<div align=center>
+    <img src=./.img/打开带UVC的彩色和深度.png/>
+</div>
