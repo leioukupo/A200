@@ -4,3 +4,4 @@
 /.idea
 /.vscode
 /build
+/win/3rdparty/opencv/build/
