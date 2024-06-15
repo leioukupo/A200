@@ -1,1 +1,0 @@
-/usr/bin/g++ -g -rdynamic CMakeFiles/color_viewer.dir/main.cpp.o CMakeFiles/color_viewer.dir/Common/Render.cpp.o CMakeFiles/color_viewer.dir/Common/Util.cpp.o -o color_viewer   -L/home/leioukupo/A200/linux/src/../libs  -Wl,-rpath,/home/leioukupo/A200/linux/src/../libs -lglut -lGL -lGLU -lImiCamera -liminect 

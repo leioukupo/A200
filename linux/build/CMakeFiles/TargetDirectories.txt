@@ -1,3 +1,0 @@
-/home/leioukupo/A200/linux/build/CMakeFiles/color_viewer.dir
-/home/leioukupo/A200/linux/build/CMakeFiles/edit_cache.dir
-/home/leioukupo/A200/linux/build/CMakeFiles/rebuild_cache.dir
