@@ -26,8 +26,13 @@ endif ()
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
 # opencv库
-#set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/../3rdparty/opencv)
-#find_package(OpenCV REQUIRED PATHS ${OpenCV_DIR}/build NO_DEFAULT_PATH)
+set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/../3rdparty/opencv/release)
+
+# 查找 OpenCV 包
+find_package(OpenCV REQUIRED PATHS ${OpenCV_DIR}/build NO_DEFAULT_PATH)
+
+# 包含 OpenCV 头文件路径
+include_directories(${OpenCV_INCLUDE_DIRS})
 
 # color_viewer
 add_executable(color_viewer ${Color_SRC})
@@ -60,6 +65,7 @@ add_executable(UVC ${UVC_SRC})
 target_link_libraries(UVC freeglut ${OPENGL_LIBRARIES})
 target_link_libraries(UVC ImiCamera)
 target_link_libraries(UVC iminect)
+target_link_libraries(UVC ${OpenCV_LIBS})
 ## 打开不带UVC彩色流和深度图
 SET(Two_stream_SRC open_two_stream.cpp ./Common/Render.cpp ./Common/Util.cpp)
 add_executable(Two_stream ${Two_stream_SRC})

@@ -156,7 +156,7 @@ static bool needImage(void *pData) {
     rect.y = 200; // 设置窗口的 y 位置
     rect.w = 480; // 设置窗口的宽度
     rect.h = 640; // 设置窗口的高度
-    g_pRender->draw((uint8_t *) s_rgbImage, rgbSize, rect);
+//    g_pRender->draw((uint8_t *) s_rgbImage, rgbSize, rect);
     imiCamReleaseFrame(&pFrame);
     return true;
 }

@@ -1,3 +1,6 @@
 [submodule "win/3rdparty/opencv"]
 	path = win/3rdparty/opencv
 	url = https://github.com/opencv/opencv.git
+[submodule "linux/3rdparty/opencv"]
+	path = linux/3rdparty/opencv
+	url = https://github.com/opencv/opencv.git
