@@ -16,6 +16,8 @@
 #include "ImiNect.h"
 // cam head file
 #include "ImiCamera.h"
+// opencv
+#include <opencv2/opencv.hpp>
 // UI
 #include "../Common/Render.h"
 
@@ -157,6 +159,10 @@ static bool needImage(void *pData) {
     rect.w = 480; // 设置窗口的宽度
     rect.h = 640; // 设置窗口的高度
 //    g_pRender->draw((uint8_t *) s_rgbImage, rgbSize, rect);
+    cv::Mat image(pFrame->height, pFrame->width, CV_8UC3, s_rgbImage);
+    cv::imshow("Display Image", image);
+    // 等待用户按键
+    cv::waitKey(1000);
     imiCamReleaseFrame(&pFrame);
     return true;
 }
@@ -239,6 +245,7 @@ int main() {
 //        return -1;
 //    }
 //    6. 渲染
+    cv::namedWindow("Display Image", cv::WINDOW_AUTOSIZE);
     g_pRender = new SampleRender("UVC View", pMode->resolutionX, pMode->resolutionY);  // window title & size
     g_pRender->init(0, nullptr);
     g_pRender->setKeyCallback(keyboardFun);

@@ -1144,7 +1144,8 @@ da> ~~无法接收数据, 初始化均正常, int32_t imiCamStartStream(ImiCamer
 pMode)~~
 > ~~无法开始流~~     
 > ~~int32_t imiCamStartStream2(ImiCameraHandle cameraDevice)可以打开流，需要处理下frame才能显示~~            
-> pdata是raw数据, 需要进行去拜耳阵列处理才能转成rgb数据   
+> ~~pdata是raw数据, 需要进行去拜耳阵列处理才能转成rgb数据~~
+> 处理有问题预览不对，还是要参照sdk的bmp处理流程
 ## 打开两路流
 ### 打开不带UVC彩色流和深度流
 <div align=center>
