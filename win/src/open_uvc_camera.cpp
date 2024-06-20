@@ -94,6 +94,7 @@ static bool needImage(void *pData) {
     auto *g_bmpColor = new unsigned char[imagePixSize * 3];
     std::memcpy((void*)g_bmpColor, pFrame->pData, imagePixSize * 3);
     cv::Mat image(pFrame->height, pFrame->width, CV_8UC3, g_bmpColor);
+    cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
     cv::imshow("Display Image", image);
     // 等待用户按键
     cv::waitKey(1);
