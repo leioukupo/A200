@@ -1154,9 +1154,12 @@ pMode)~~
 <div align=center>
     <img src=./.img/打开不带UVC的深度和彩色.png/>
 </div>
-file: open_two_stream.cpp
+
+> 不带UVC的彩色图无法打开, 怀疑硬件问题
 
 ### 打开带UVC彩色流和深度流
+> 同时预览只有UVC彩色图显示, 深度图log显示有数据但无法显示
 <div align=center>
     <img src=./.img/打开带UVC的彩色和深度.png/>
 </div>
+file: open_two_stream.cpp
