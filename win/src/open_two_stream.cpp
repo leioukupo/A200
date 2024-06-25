@@ -139,8 +139,8 @@ int32_t saveToBMP(const char *bmpImagePath, const uint8_t *pframe, int width, in
 
 
 // Histogram view mode
-void calculateHistogram(float *pHistogram, int histogramSize, const ImiImageFrame *frame) {
-    const uint16_t *pDepth = (const uint16_t *) frame->pData;
+void calculateHistogram(unsigned char *pHistogram, int histogramSize, const ImiImageFrame *frame) {
+    const auto *pDepth = (const uint16_t *) frame->pData;
 
     memset(pHistogram, 0, histogramSize * sizeof(float));
 
@@ -170,7 +170,7 @@ void calculateHistogram(float *pHistogram, int histogramSize, const ImiImageFram
 
 // window callback, called by SampleRender::display()
 static bool needImage(void *pData) {
-    static float s_depthHist[MAX_DEPTH];
+    static unsigned char s_depthHist[MAX_DEPTH];
     static RGB888Pixel s_rgbImage[1280 * 1024];
 
     int32_t avStreamIndex = 0;
@@ -189,7 +189,7 @@ static bool needImage(void *pData) {
     calculateHistogram(s_depthHist, MAX_DEPTH, pFrame);
 
     uint32_t rgbSize;
-    uint16_t *pde = (uint16_t *) pFrame->pData;
+    auto *pde = (uint16_t *) pFrame->pData;
     for (rgbSize = 0; rgbSize < pFrame->size / 2; ++rgbSize) {
         s_rgbImage[rgbSize].r = s_depthHist[pde[rgbSize]];
         s_rgbImage[rgbSize].g = s_rgbImage[rgbSize].r;
@@ -225,6 +225,7 @@ static bool needImage(void *pData) {
 
         g_bSave = false;
     }
+
     ImiCameraFrame *UVCpFrame = nullptr;
     static RGB888Pixel UVC_rgbImage[640 * 480];
     // 5. 读一帧
@@ -233,21 +234,19 @@ static bool needImage(void *pData) {
         return -1;
     }
     //    处理图像
-    int32_t imagePixSize = pFrame->width * pFrame->height;
+    int32_t imagePixSize = UVCpFrame->width * UVCpFrame->height;
     auto *UVC_bmpColor = new unsigned char[imagePixSize * 3];
-    std::memcpy((void*)UVC_bmpColor, pFrame->pData, imagePixSize * 3);
-    cv::Mat image(pFrame->height, pFrame->width, CV_8UC3, g_bmpColor);
+    std::memcpy((void*)UVC_bmpColor, UVCpFrame->pData, imagePixSize * 3);
+    cv::Mat image(UVCpFrame->height, UVCpFrame->width, CV_8UC3, UVC_bmpColor);
     cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
     cv::imshow("Display Image", image);
+    // Draw
+    g_pRender->draw(-1, (uint8_t *) s_rgbImage, rgbSize, pFrame->width, pFrame->height, &pFrame);
     // 等待用户按键
     cv::waitKey(1);
-    // Draw
-//    g_pRender->draw(-1, (uint8_t *) s_rgbImage, rgbSize, pFrame->width, pFrame->height, &pFrame);
-
     // call this to free frame
     imiReleaseFrame(&pFrame);
     imiCamReleaseFrame(&UVCpFrame);
-
     return true;
 }
 
@@ -259,7 +258,13 @@ int Exit() {
             g_streams[num] = nullptr;
         }
     }
-
+    //6.关闭流
+    imiCamStopStream(g_ImiCamera);
+    //7.关闭设备
+    if (nullptr != g_ImiCamera) {
+        imiCamClose(g_ImiCamera);
+        g_ImiCamera = nullptr;
+    }
     //8.imiCloseDevice()
     if (nullptr != g_ImiDevice) {
         imiCloseDevice(g_ImiDevice);
