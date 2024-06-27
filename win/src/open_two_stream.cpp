@@ -195,7 +195,12 @@ static bool needImage(void *pData) {
         s_rgbImage[rgbSize].g = s_rgbImage[rgbSize].r;
         s_rgbImage[rgbSize].b = 0;
     }
-
+//    处理深度图像
+    int32_t depth_imagePixSize = pFrame->width * pFrame->height;
+    auto *depth_bmpColor = new unsigned char[depth_imagePixSize * 3];
+    std::memcpy((void*)depth_bmpColor, s_rgbImage, depth_imagePixSize * 3);
+    cv::Mat depth_image(pFrame->height, pFrame->width, CV_8UC3, depth_bmpColor);
+    cv::cvtColor(depth_image, depth_image, cv::COLOR_RGB2BGR);
     if (g_bSave) {
         static int index = 0;
         index++;
@@ -240,8 +245,9 @@ static bool needImage(void *pData) {
     cv::Mat image(UVCpFrame->height, UVCpFrame->width, CV_8UC3, UVC_bmpColor);
     cv::cvtColor(image, image, cv::COLOR_RGB2BGR);
     cv::imshow("Display Image", image);
+    cv::imshow("Depth Image", depth_image);
     // Draw
-    g_pRender->draw(-1, (uint8_t *) s_rgbImage, rgbSize, pFrame->width, pFrame->height, &pFrame);
+//    g_pRender->draw(-1, (uint8_t *) s_rgbImage, rgbSize, pFrame->width, pFrame->height, &pFrame);
     // 等待用户按键
     cv::waitKey(1);
     // call this to free frame
@@ -382,6 +388,7 @@ int main(int argc, char **argv) {
     }
     //6.create window and set read Stream frame data callback
     cv::namedWindow("Display Image", cv::WINDOW_AUTOSIZE);
+    cv::namedWindow("Depth Image", cv::WINDOW_AUTOSIZE);
     g_pRender = new SampleRender("Depth View", pMode->resolutionX, pMode->resolutionY);  // window title & size
     g_pRender->init(argc, argv);
     g_pRender->setKeyCallback(keyboardFun);
