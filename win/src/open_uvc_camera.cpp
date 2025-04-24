@@ -31,7 +31,7 @@ typedef struct tagRGBPixel {
     unsigned char b;
 } RGBPixel;
 
-#pragma pack(pop)
+//#pragma pack(pop)
 //围绕结构定义的#pragma pack(push, 1)
 // #pragma pack(pop)指令是编译器指令
 // 用于控制结构的内存对齐。在这种情况下，
@@ -99,6 +99,7 @@ static bool needImage(void *pData) {
     // 等待用户按键
     cv::waitKey(1);
     imiCamReleaseFrame(&pFrame);
+    delete[] g_bmpColor;
     return true;
 }
 int Exit() {
@@ -120,7 +121,7 @@ int Exit() {
     getchar();
     return 0;
 }
-
+using namespace std;
 int main() {
     // 1.初始化
     uint32_t ret;
@@ -139,11 +140,11 @@ int main() {
     }
     // 打印g_DeviceAttr的各项值   g_DeviceAttr是指针数组
     // 打印ImiDeviceAttribute的各项值
-    printf("vendorId: %d\n", g_DeviceAttr[0].vendorId);
-    printf("productId: %d\n", g_DeviceAttr[0].productId);
-    printf("deviceAddress: %u\n", g_DeviceAttr[0].deviceAddress);
-    printf("serialNumber: %s\n", g_DeviceAttr[0].serialNumber);
-    printf("uri: %s\n", g_DeviceAttr[0].uri);
+    cout << "vendorId: \n" << g_DeviceAttr[0].vendorId<< endl;
+    cout << "productId: \n" << g_DeviceAttr[0].productId<< endl;
+    cout << "deviceAddress: \n" << g_DeviceAttr[0].deviceAddress<< endl;
+    cout << "serialNumber: \n" << g_DeviceAttr[0].serialNumber<< endl;
+    cout << "uri: \n" << g_DeviceAttr[0].uri<< endl;
     // 3.打开设备
     ret = imiCamOpen(&g_ImiCamera);
     if (ret != 0) {

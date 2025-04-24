@@ -1140,13 +1140,14 @@ TODO: 彩色图暂时无法打开
 </div>
 file: open_uvc_camera.cpp      
 
-da> ~~无法接收数据, 初始化均正常, int32_t imiCamStartStream(ImiCameraHandle cameraDevice, const ImiCameraFrameMode*
-pMode)~~
+> ~~无法接收数据, 初始化均正常, int32_t imiCamStartStream(ImiCameraHandle cameraDevice, const ImiCameraFrameMode*
+pMode)~~       
 > ~~无法开始流~~     
 > ~~int32_t imiCamStartStream2(ImiCameraHandle cameraDevice)可以打开流，需要处理下frame才能显示~~            
 > ~~pdata是raw数据, 需要进行去拜耳阵列处理才能转成rgb数据~~
 > ~~处理有问题预览不对，还是要参照sdk的bmp处理流程~~
 > 预览正常
+> 需要复制编译好的opencv的dll到运行目录
 ## 打开两路流
 > 两路流无法同时打开，只能打开一路流
 > TODO: 研究怎么同时显示两路流
@@ -1155,7 +1156,7 @@ pMode)~~
     <img src=./.img/打开不带UVC的深度和彩色.png/>
 </div>
 
-> 不带UVC的彩色图无法打开, 怀疑硬件问题
+> 不带UVC的彩色图无法打开, ~~怀疑硬件问题~~  不带uvc应该需要特殊解码
 
 ### 打开带UVC彩色流和深度流
 > 同时预览只有UVC彩色图显示, 深度图log显示有数据但无法显示

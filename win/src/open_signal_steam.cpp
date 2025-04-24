@@ -145,7 +145,7 @@ int main() {
     }
     printf("Get current frame mode:%d-%d-%d-%d-%d\n", pMode->bitsPerPixel,
            pMode->framerate, pMode->pixelFormat, pMode->resolutionX, pMode->resolutionY);
-    imiSetFrameMode(g_ImiDevice, IMI_DEPTH_FRAME, (ImiFrameMode *) pMode);
+//    imiSetFrameMode(g_ImiDevice, IMI_DEPTH_FRAME, (ImiFrameMode *) pMode);
     int a =0;
     int *p;
     p= &a;

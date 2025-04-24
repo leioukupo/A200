@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 PROJECT(A200_win)
 
-
+set(CMAKE_EXE_LINKER_FLAGS "-static")
 
 # 设置源文件变量
 SET(Color_SRC color_viewer.cpp ./Common/Render.cpp ./Common/Util.cpp)
@@ -26,11 +26,11 @@ endif ()
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
 # opencv库
-set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/../3rdparty/opencv/release)
+set(OpenCV_DIR ${CMAKE_SOURCE_DIR}/../3rdparty/opencv/build)
 
 # 查找 OpenCV 包
-find_package(OpenCV REQUIRED PATHS ${OpenCV_DIR}/build NO_DEFAULT_PATH)
-
+#find_package(OpenCV REQUIRED PATHS ../3rdparty/opencv/build NO_DEFAULT_PATH)
+find_package(OpenCV REQUIRED)
 # 包含 OpenCV 头文件路径
 include_directories(${OpenCV_INCLUDE_DIRS})
 
@@ -73,3 +73,4 @@ target_link_libraries(Two_stream freeglut ${OPENGL_LIBRARIES})
 target_link_libraries(Two_stream ImiCamera)
 target_link_libraries(Two_stream iminect)
 target_link_libraries(Two_stream ${OpenCV_LIBS})
+
