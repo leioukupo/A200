@@ -49,7 +49,7 @@ target_link_libraries(depth_viewer iminect)
 SET(PointCloudViewer_SRC PointCloudViewer.cpp ./Common/Render2.cpp ./Common/Util.h)
 add_executable(point_viewer ${PointCloudViewer_SRC})
 target_link_libraries(point_viewer freeglut ${OPENGL_LIBRARIES})
-target_link_libraries(point_viewer ImiCamera)
+target_link_libraries(point_viewer ImiCamera) 
 target_link_libraries(point_viewer iminect)
 # 单路流
 ## 打开普通彩色深度红外图像

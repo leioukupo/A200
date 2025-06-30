@@ -725,8 +725,8 @@ int32_t imiConvertDepthToPointCloud(const ImiImageFrame* pDepth, float factor, f
 |        float         |      fy      |      camera_fy       |   IN   |
 |        float         |      cx      |      camera_cx       |   IN   |
 |        float         |      cy      |      camera_cy       |   IN   |
-|     ImiPoint3D*      | pPointClouds | 输出的点云数据（buffer 由调用者申 |        |
-|          请）          |     OUT      |                      |        |
+|     ImiPoint3D*      | pPointClouds | 输出的点云数据（buffer 由调用者申请）   |  out   |
+
 
 |  值   |              说明               |
 |:----:|:-----------------------------:|
